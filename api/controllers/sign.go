@@ -17,14 +17,19 @@ func correctPassword(password, hash string) bool {
 func (h *BaseHandler) SignIn(c *gin.Context) {
 	//validate user
 	username := c.Query("username")
-	password := c.Query("password")
+	requestUser, _ := h.getUser("")
 	user, _ := h.getUser(username)
 	incorrectCredentials := gin.H{"message": "username or password are incorrect"}
 	if user.Username == "" {
 		c.IndentedJSON(http.StatusBadRequest, incorrectCredentials)
 		return
 	}
-	if !correctPassword(password, user.Password) {
+	decodeErr := json.NewDecoder(c.Request.Body).Decode(&requestUser)
+	if decodeErr != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "bad request"})
+		return
+	}
+	if !correctPassword(requestUser.Password, user.Password) {
 		c.IndentedJSON(http.StatusBadRequest, incorrectCredentials)
 		return
 	}

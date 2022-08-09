@@ -6,7 +6,7 @@ import (
 	"github.com/stomas418/notes/api/middleware"
 )
 
-func Notes(router *gin.Engine, h *controllers.BaseHandler) *gin.RouterGroup {
+func Notes(router *gin.Engine, h *controllers.BaseHandler) {
 	notes := router.Group("/:user/notes")
 	notes.Use(middleware.IsLoggedIn())
 	notes.GET("/", h.GetNotes)
@@ -14,5 +14,4 @@ func Notes(router *gin.Engine, h *controllers.BaseHandler) *gin.RouterGroup {
 	notes.GET("/:id", h.GetNoteById)
 	notes.PUT("/:id", h.EditNote)
 	notes.DELETE("/:id", h.DeleteNote)
-	return notes
 }

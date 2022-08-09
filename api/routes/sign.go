@@ -6,9 +6,7 @@ import (
 	"github.com/stomas418/notes/api/middleware"
 )
 
-func Sign(router *gin.Engine, h *controllers.BaseHandler) *gin.RouterGroup {
-	sign := router.Group("/")
-	sign.POST("/login", middleware.IsNotLoggedIn(), h.SignIn)
-	sign.POST("/register", middleware.IsNotLoggedIn(), h.SignUp)
-	return sign
+func Sign(router *gin.Engine, h *controllers.BaseHandler) {
+	router.POST("/login", middleware.IsNotLoggedIn(), h.SignIn)
+	router.POST("/register", middleware.IsNotLoggedIn(), h.SignUp)
 }

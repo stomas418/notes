@@ -6,10 +6,10 @@ import (
 	"github.com/stomas418/notes/api/middleware"
 )
 
-func Users(router *gin.Engine, h *controllers.BaseHandler) *gin.RouterGroup {
+func Users(router *gin.Engine, h *controllers.BaseHandler) {
 	user := router.Group("/:user")
-	user.GET("/", middleware.IsLoggedIn(), h.GetUser)
-	user.PUT("/", middleware.IsLoggedIn(), h.EditUser)
-	user.DELETE("/", middleware.IsLoggedIn(), h.DeleteUser)
-	return user
+	user.Use(middleware.IsLoggedIn())
+	user.GET("/", h.GetUser)
+	user.PUT("/", h.EditUser)
+	user.DELETE("/", h.DeleteUser)
 }

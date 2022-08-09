@@ -33,5 +33,5 @@ func ValidToken(tokenString string) bool {
 		}
 		return SIGNING_KEY, nil
 	})
-	return err != nil
+	return err == nil
 }
