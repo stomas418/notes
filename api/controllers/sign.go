@@ -40,6 +40,7 @@ func (h *BaseHandler) SignIn(c *gin.Context) {
 		return
 	}
 	//set token as cookie
+	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie("token", token, 60*60*24, "/", "", true, false)
 	//return token
 	c.IndentedJSON(http.StatusAccepted, token)
