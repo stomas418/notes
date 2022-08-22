@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/stomas418/notes/api/controllers"
 	"github.com/stomas418/notes/api/database"
@@ -13,8 +15,11 @@ func main() {
 		panic(err)
 	}
 	h := controllers.NewBaseHandler(db)
-
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8080"
+	}
 	router := gin.Default()
 	routes.Route(router, h)
-	router.Run("localhost:8080")
+	router.Run(":" + PORT)
 }
