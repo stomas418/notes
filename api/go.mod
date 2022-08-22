@@ -1,7 +1,6 @@
 module github.com/stomas418/notes/api
 
 go 1.18
-goVersion 1.18
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
