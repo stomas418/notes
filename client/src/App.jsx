@@ -1,14 +1,15 @@
-import { useState } from 'react'
 import './App.css'
+import User from './components/user/User'
 import Login from './components/login/Login'
-import Register from './components/register/Register'
+import { AppContext } from './context/userContext'
 
-function App() {
+const App = () => {
+
   return (
-    <>
+    <AppContext>
       <Login />
-
-    </>
+      <User />
+    </AppContext>
   )
 }
 

@@ -1,18 +1,34 @@
+import { useRef } from "react"
 import { useState } from "react"
+import { useLog, useUser } from "../../context/userContext"
 
 const Login = () => {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const usernameRef = useRef(null)
+    const passwordRef = useRef(null)
+    const [, setLogStatus] = useLog()
+    const [, setUser] = useUser()
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const response = await fetch("https://tom-notes.herokuapp.com/login?username=" + username, {
+        const response = await fetch("https://tom-notes.herokuapp.com/login?username=" + usernameRef.current.value, {
             method: "post",
             credentials: "include",
             body: JSON.stringify({
-                "username": username,
-                "password": password
+                "username": usernameRef.current.value,
+                "password": passwordRef.current.value
             })
         })
+
+        switch (response.status) {
+            case 202: setLogStatus(true);
+                setUser(usernameRef.current.value);
+                break;
+            case 401: setLogStatus(true);
+                setUser(usernameRef.current.value);
+                break;
+            default: setLogStatus(false);
+                setUser("");
+                break;
+        }
     }
 
     return (
@@ -23,16 +39,14 @@ const Login = () => {
                     Username:
                     <input
                         type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        ref={usernameRef}
                     />
                 </label>
                 <label>
                     Password:
                     <input
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        ref={passwordRef}
                     />
                 </label>
                 <input className="submit" type="submit" value="Submit" />
