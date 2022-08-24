@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
 const Register = () => {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const usernameRef = useRef()
+    const passwordRef = useRef()
+    const url = import.meta.env.VITE_API_URL
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const response = await fetch("https://tom-notes.herokuapp.com/register?username=" + username, {
+        const response = await fetch(`${url}/register?username=${usernameRef.current.value}`, {
             method: "post",
             credentials: "include",
             body: JSON.stringify({
@@ -24,16 +25,14 @@ const Register = () => {
                     Username:
                     <input
                         type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        ref={usernameRef}
                     />
                 </label>
                 <label>
                     Password:
                     <input
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        ref={passwordRef}
                     />
                 </label>
                 <input className="submit" type="submit" value="Submit" />

@@ -7,9 +7,10 @@ const Login = () => {
     const passwordRef = useRef(null)
     const [, setLogStatus] = useLog()
     const [, setUser] = useUser()
+    const url = import.meta.env.VITE_API_URL
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const response = await fetch("https://tom-notes.herokuapp.com/login?username=" + usernameRef.current.value, {
+        const response = await fetch(`${url}/register?username=${usernameRef.current.value}`, {
             method: "post",
             credentials: "include",
             body: JSON.stringify({
